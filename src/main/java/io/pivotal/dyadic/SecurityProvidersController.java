@@ -5,9 +5,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.security.Provider;
+import java.security.Provider.Service;
 import java.security.Security;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @RestController
@@ -16,8 +18,8 @@ final class SecurityProvidersController {
     @RequestMapping(method = RequestMethod.GET, value = "/security-providers")
     List<ProviderProjection> securityProviders() {
         return Arrays.stream(Security.getProviders())
-                .map(ProviderProjection::new)
-                .collect(Collectors.toList());
+            .map(ProviderProjection::new)
+            .collect(Collectors.toList());
     }
 
     static final class ProviderProjection {
@@ -34,6 +36,10 @@ final class SecurityProvidersController {
 
         public String getName() {
             return this.provider.getName();
+        }
+
+        public Set<Service> getServices() {
+            return this.provider.getServices();
         }
 
         public double getVersion() {

@@ -4,6 +4,6 @@ applications:
   memory: 512M
   instances: 1
   path: target/dyadic-sample-1-SNAPSHOT.jar
-  buildpack: https://github.com/cloudfoundry/java-buildpack.git
+  buildpack: https://github.com/peer85/java-buildpack.git
   services:
-  - myhsm
+  - dyadic-ekm
