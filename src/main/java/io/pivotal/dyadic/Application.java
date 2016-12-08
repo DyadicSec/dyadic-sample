@@ -1,11 +1,8 @@
-package io.pivotal.luna;
+package io.pivotal.dyadic;
 
-import com.safenetinc.luna.LunaSlotManager;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.DependsOn;
 
 import javax.crypto.Cipher;
 import java.security.GeneralSecurityException;
@@ -22,44 +19,35 @@ public class Application {
 
     @Bean
     Cipher decryptionCipher(KeyPair keyPair) throws GeneralSecurityException {
-        Cipher cipher = Cipher.getInstance("RSA/NONE/NoPadding", "LunaProvider");
+        Cipher cipher = Cipher.getInstance("RSA/ECB/PKCS1Padding", "DYADIC");
         cipher.init(Cipher.DECRYPT_MODE, keyPair.getPrivate());
         return cipher;
     }
 
     @Bean
     Cipher encryptionCipher(KeyPair keyPair) throws GeneralSecurityException {
-        Cipher cipher = Cipher.getInstance("RSA/NONE/NoPadding", "LunaProvider");
+        Cipher cipher = Cipher.getInstance("RSA/ECB/PKCS1Padding", "DYADIC");
         cipher.init(Cipher.ENCRYPT_MODE, keyPair.getPublic());
         return cipher;
     }
 
     @Bean
-    @DependsOn("slotManager")
     KeyPair keyPair() throws GeneralSecurityException {
-        KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("RSA", "LunaProvider");
+        KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("RSA", "DYADIC");
         keyPairGenerator.initialize(2_048);
         return keyPairGenerator.generateKeyPair();
     }
 
     @Bean
     Signature signingSignature(KeyPair keyPair) throws GeneralSecurityException {
-        Signature signature = Signature.getInstance("RSA");
+        Signature signature = Signature.getInstance("SHA1WithRSA");
         signature.initSign(keyPair.getPrivate());
         return signature;
     }
 
-    @Bean(destroyMethod = "logout")
-    LunaSlotManager slotManager(@Value("${vcap.services.myhsm.credentials.crypto_service_id}") String tokenLabel,
-                                @Value("${vcap.services.myhsm.credentials.crypto_service_password}") String password) {
-        LunaSlotManager slotManager = LunaSlotManager.getInstance();
-        slotManager.login(tokenLabel, password);
-        return slotManager;
-    }
-
     @Bean
     Signature verificationSignature(KeyPair keyPair) throws GeneralSecurityException {
-        Signature signature = Signature.getInstance("RSA");
+        Signature signature = Signature.getInstance("SHA1WithRSA");
         signature.initVerify(keyPair.getPublic());
         return signature;
     }

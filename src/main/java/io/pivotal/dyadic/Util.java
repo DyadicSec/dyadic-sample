@@ -1,4 +1,4 @@
-package io.pivotal.luna;
+package io.pivotal.dyadic;
 
 import java.util.HashMap;
 import java.util.Map;

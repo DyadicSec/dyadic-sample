@@ -1,4 +1,4 @@
-package io.pivotal.luna;
+package io.pivotal.dyadic;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,7 +18,7 @@ import java.util.Base64;
 import java.util.Map;
 import java.util.Optional;
 
-import static io.pivotal.luna.Util.zip;
+import static io.pivotal.dyadic.Util.zip;
 
 @RestController
 final class CryptoController {
