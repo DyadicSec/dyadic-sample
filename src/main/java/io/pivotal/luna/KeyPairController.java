@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.security.KeyPair;
 import java.util.Base64;
 import java.util.Map;
+import java.util.Optional;
 
 import static io.pivotal.luna.Util.zip;
 
@@ -23,7 +24,10 @@ final class KeyPairController {
 
     @RequestMapping(method = RequestMethod.GET, value = "/key-pair")
     Map<String, String> keyPair() {
-        String privateKey = Base64.getEncoder().encodeToString(this.keyPair.getPrivate().getEncoded());
+        String privateKey = Optional.ofNullable(this.keyPair.getPrivate().getEncoded())
+            .map(encoded -> Base64.getEncoder().encodeToString(encoded))
+            .orElse("Not Returned");
+
         String publicKey = Base64.getEncoder().encodeToString(this.keyPair.getPublic().getEncoded());
 
         return zip(new String[]{"private", "public"}, new String[]{privateKey, publicKey});
