@@ -38,7 +38,7 @@ public class Application {
     @DependsOn("slotManager")
     KeyPair keyPair() throws GeneralSecurityException {
         KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("RSA", "LunaProvider");
-        keyPairGenerator.initialize(1024);
+        keyPairGenerator.initialize(2_048);
         return keyPairGenerator.generateKeyPair();
     }
 
