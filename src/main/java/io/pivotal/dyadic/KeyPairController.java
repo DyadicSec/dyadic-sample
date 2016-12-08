@@ -1,4 +1,4 @@
-package io.pivotal.luna;
+package io.pivotal.dyadic;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -10,7 +10,7 @@ import java.util.Base64;
 import java.util.Map;
 import java.util.Optional;
 
-import static io.pivotal.luna.Util.zip;
+import static io.pivotal.dyadic.Util.zip;
 
 @RestController
 final class KeyPairController {
